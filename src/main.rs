@@ -52,8 +52,9 @@ let mut input_unit  = TextInput::new(500.0, 300.0, 150.0, 40.0, 25.0);
 
 let mut total: f64 = 0.0;
 input_unit.set_allowed_chars("0123456789");
-
-
+let mut disable: bool = true;
+let mut first_unit: i32 = 0;
+let mut second_unit: i32 = 0;
     let mut btn_exit = TextButton::new(1450.0, 650.0, 200.0, 60.0, "Exit", WHITE, RED, 30);
     let mut lbl_text = Label::new("First type the value of the units you want to convert \nthen click each button to change which unit your converting from \nthen click a second button to pick which unit you want to convert to", 10.0, 100.0, 30);
     let mut btn_meters = TextButton::new(50.0, 350.0, 200.0, 60.0, "Meters", WHITE, RED, 30);
@@ -84,15 +85,45 @@ let mut edward: bool = false;
         use_virtual_resolution(1700.0, 768.0);
         if btn_calc_total.click() {
             
-            lbl_text.set_text("Calculating...");
+            //lbl_text.set_text("Calculating...");
             
             let unit_text = input_unit.get_text();
             let input_unit = unit_text.trim().parse::<f64>();
-            
-            
+            if first_unit == 1 && second_unit == 2 {
+                total = input_unit.unwrap() * 100.0;
+            } else if first_unit == 1 && second_unit == 3 {
+                total = input_unit.unwrap() * 3.28084;
+            } else if first_unit == 1 && second_unit == 4 {
+                total = input_unit.unwrap() * 39.3701;
+            } else if first_unit == 2 && second_unit == 1 {
+                total = input_unit.unwrap() / 100.0;
+            } else if first_unit == 2 && second_unit == 3 {
+                total = input_unit.unwrap() / 30.48;
+            } else if first_unit == 2 && second_unit == 4 {
+                total = input_unit.unwrap() / 2.54;
+            } else if first_unit == 3 && second_unit == 1 {
+                total = input_unit.unwrap() / 3.28084;
+            } else if first_unit == 3 && second_unit == 2 {
+                total = input_unit.unwrap() * 30.48;
+            } else if first_unit == 3 && second_unit == 4 {
+                total = input_unit.unwrap() * 12.0;
+            } else if first_unit == 4 && second_unit == 1 {
+                total = input_unit.unwrap() / 39.3701;
+            } else if first_unit == 4 && second_unit == 2 {
+                total = input_unit.unwrap() * 2.54;
+            } else if first_unit == 4 && second_unit == 3 {
+                total = input_unit.unwrap() /12.0;
+            }
+            first_unit = 0;
+            second_unit = 0;
+            btn_inches.enabled = true;
+   
+    btn_feet.enabled =true;
+    btn_centimeters.enabled = true;
+    btn_meters.enabled = true;
            
             
-            lbl_text.set_text(format!("Total: ${:.2}", total));
+            lbl_text.set_text(format!("Conversion to second unit is: {:.2} units", total));
            // btn_calc_change.enabled = true;
     
    
@@ -103,7 +134,8 @@ let mut edward: bool = false;
     btn_feet.enabled =false;
     btn_centimeters.enabled = false;
     btn_meters.enabled = false;
-        } else {
+    disable = true;
+        } else if disable == true{
             btn_inches.enabled = true;
     btn_calc_total.enabled = true;
     btn_feet.enabled =true;
@@ -116,24 +148,56 @@ let mut edward: bool = false;
         };
         
        if btn_meters.click() {
-           
+        disable = false;
+        if first_unit == 0 {
+            first_unit = 1;
+        } else if second_unit == 0 {
+            second_unit = 1;
+        }
+           btn_meters.enabled = false;
         };
         if btn_centimeters.click() {
-           
+            disable = false;
+            if first_unit == 0 {
+            first_unit = 2;
+        } else if second_unit == 0 {
+            second_unit = 2;
+        }
+           btn_centimeters.enabled = false;
         };
         if btn_feet.click() {
-            
+            if first_unit == 0 {
+            first_unit = 3;
+        } else if second_unit == 0 {
+            second_unit = 3;
+        }
+            disable = false;
+            btn_feet.enabled = false;
         };
         if btn_inches.click() {
-            
+            if first_unit == 0 {
+            first_unit = 4;
+        } else if second_unit == 0 {
+            second_unit = 4;
+        }
+            disable = false;
+            btn_inches.enabled = false;
         };
-        
+        if first_unit > 0 && second_unit > 0 {
+            disable = false;
+        }
         input_unit.draw();
         
        
        
         
-        
+        if second_unit > 0 {
+            btn_inches.enabled = false;
+   
+    btn_feet.enabled =false;
+    btn_centimeters.enabled = false;
+    btn_meters.enabled = false;
+        }
        
         
          if edward == true {

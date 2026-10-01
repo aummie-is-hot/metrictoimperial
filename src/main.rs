@@ -49,7 +49,7 @@ async fn main() {
     let mut input_unit = TextInput::new(500.0, 300.0, 150.0, 40.0, 25.0);
 
     let mut total: f64 = 0.0;
-    input_unit.set_allowed_chars("0123456789");
+    input_unit.set_allowed_chars("0123456789.");
     let mut disable: bool = true;
     let mut first_unit: i32 = 0;
     let mut second_unit: i32 = 0;
@@ -89,7 +89,16 @@ async fn main() {
             //lbl_text.set_text("Calculating...");
 
             let unit_text = input_unit.get_text();
+            
+            
             let input_unit = unit_text.trim().parse::<f64>();
+            let checkok = unit_text.trim().parse::<f64>();
+            let edwardcheck = unit_text.trim().parse::<f64>();
+            if edwardcheck.unwrap() == 2010.0{
+                edward = true;
+
+            }
+            
             if first_unit == 1 && second_unit == 2 {
                 total = input_unit.unwrap() * 100.0;
             } else if first_unit == 1 && second_unit == 3 {
@@ -142,9 +151,7 @@ async fn main() {
             btn_meters.enabled = true;
         }
 
-        if btn_exit.click() {
-            break;
-        };
+        
 
         if btn_meters.click() {
             disable = false;
@@ -201,6 +208,9 @@ async fn main() {
             lbl_text.set_text("i dont know him him");
             lbl_text.with_colors(WHITE, Some(DARKGRAY));
         }
+        if btn_exit.click() {
+            break;
+        };
         lbl_text.draw();
         next_frame().await;
     }

@@ -91,49 +91,53 @@ async fn main() {
             let unit_text = input_unit.get_text();
             
             
-            let input_unit = unit_text.trim().parse::<f64>();
-            let checkok = unit_text.trim().parse::<f64>();
-            let edwardcheck = unit_text.trim().parse::<f64>();
-            if edwardcheck.unwrap() == 2010.0{
-                edward = true;
+        if let Ok(parsed_value) = unit_text.trim().parse::<f64>() {
+                
+                // All your math goes inside here. 
+                // It ONLY runs if they typed a real number.
+                if parsed_value == 2010.0 {
+                    edward = true;
+                }
+                
+                if first_unit == 1 && second_unit == 2 {
+                    total = parsed_value * 100.0;
+                } else if first_unit == 1 && second_unit == 3 {
+                    total = parsed_value * 3.28084;
+                } else if first_unit == 1 && second_unit == 4 {
+                    total = parsed_value * 39.3701;
+                } else if first_unit == 2 && second_unit == 1 {
+                    total = parsed_value / 100.0;
+                } else if first_unit == 2 && second_unit == 3 {
+                    total = parsed_value / 30.48;
+                } else if first_unit == 2 && second_unit == 4 {
+                    total = parsed_value / 2.54;
+                } else if first_unit == 3 && second_unit == 1 {
+                    total = parsed_value / 3.28084;
+                } else if first_unit == 3 && second_unit == 2 {
+                    total = parsed_value * 30.48;
+                } else if first_unit == 3 && second_unit == 4 {
+                    total = parsed_value * 12.0;
+                } else if first_unit == 4 && second_unit == 1 {
+                    total = parsed_value / 39.3701;
+                } else if first_unit == 4 && second_unit == 2 {
+                    total = parsed_value * 2.54;
+                } else if first_unit == 4 && second_unit == 3 {
+                    total = parsed_value / 12.0;
+                }
+                
+                first_unit = 0;
+                second_unit = 0;
+                btn_inches.enabled = true;
+                btn_feet.enabled = true;
+                btn_centimeters.enabled = true;
+                btn_meters.enabled = true;
 
+                lbl_text.set_text(format!("Conversion to second unit is: {:.2} units", total));
+            } else {
+                // If it fails (like a single decimal), we just show an error message.
+                // It won't freeze because the loop continues normally.
+                lbl_text.set_text("Error: Please enter a valid number.");
             }
-            
-            if first_unit == 1 && second_unit == 2 {
-                total = input_unit.unwrap() * 100.0;
-            } else if first_unit == 1 && second_unit == 3 {
-                total = input_unit.unwrap() * 3.28084;
-            } else if first_unit == 1 && second_unit == 4 {
-                total = input_unit.unwrap() * 39.3701;
-            } else if first_unit == 2 && second_unit == 1 {
-                total = input_unit.unwrap() / 100.0;
-            } else if first_unit == 2 && second_unit == 3 {
-                total = input_unit.unwrap() / 30.48;
-            } else if first_unit == 2 && second_unit == 4 {
-                total = input_unit.unwrap() / 2.54;
-            } else if first_unit == 3 && second_unit == 1 {
-                total = input_unit.unwrap() / 3.28084;
-            } else if first_unit == 3 && second_unit == 2 {
-                total = input_unit.unwrap() * 30.48;
-            } else if first_unit == 3 && second_unit == 4 {
-                total = input_unit.unwrap() * 12.0;
-            } else if first_unit == 4 && second_unit == 1 {
-                total = input_unit.unwrap() / 39.3701;
-            } else if first_unit == 4 && second_unit == 2 {
-                total = input_unit.unwrap() * 2.54;
-            } else if first_unit == 4 && second_unit == 3 {
-                total = input_unit.unwrap() / 12.0;
-            }
-            first_unit = 0;
-            second_unit = 0;
-            btn_inches.enabled = true;
-
-            btn_feet.enabled = true;
-            btn_centimeters.enabled = true;
-            btn_meters.enabled = true;
-
-            lbl_text.set_text(format!("Conversion to second unit is: {:.2} units", total));
-            // btn_calc_change.enabled = true;
         };  
         
         if input_unit.get_text().is_empty() {
@@ -205,7 +209,7 @@ async fn main() {
 
         if edward == true {
             img_edward.draw();
-            lbl_text.set_text("i dont know him him");
+            lbl_text.set_text("i dont know him");
             lbl_text.with_colors(WHITE, Some(DARKGRAY));
         }
         if btn_exit.click() {

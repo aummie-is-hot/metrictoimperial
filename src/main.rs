@@ -136,7 +136,7 @@ async fn main() {
             } else {
                 // If it fails (like a single decimal), we just show an error message.
                 // It won't freeze because the loop continues normally.
-                lbl_text.set_text("Error: Please enter a valid number.");
+                lbl_text.set_text("Error: Please enter a valid number you stupid loser. \n your family is dissapointed in you.");
             }
         };  
         

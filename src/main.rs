@@ -211,9 +211,16 @@ async fn main() {
             img_edward.draw();
             lbl_text.set_text("i dont know him");
             lbl_text.with_colors(WHITE, Some(DARKGRAY));
-        }
+        } 
         if btn_exit.click() {
-            break;
+            if edward == true {
+                edward = false;
+                 lbl_text.with_colors(BLACK, Some(WHITE));
+            lbl_text.set_text("First type the value of the units you want to convert \nthen click each button to change which unit your converting from \nthen click a second button to pick which unit you want to convert to");
+            } else {
+                break;
+            }
+            
         };
         lbl_text.draw();
         next_frame().await;
